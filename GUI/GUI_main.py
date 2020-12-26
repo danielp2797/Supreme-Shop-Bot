@@ -6,6 +6,12 @@ from start_page import StartPage
 from data_page import DataPage
 from purchase_page import PurchasePage
 
+import sys
+sys.path.insert(1, 'droplist_scrapping/')
+from droplist_scrapper import ScrapLatestDroplist
+
+# ScrapLatestDroplist()  # refresh of the latest droplist every time we run the bot GUI
+
 class App(tk.Tk):
 
     def __init__(self, *args, **kwargs):

@@ -9,12 +9,14 @@ import pandas as pd
 from selenium.webdriver.support.ui import Select
 import requests
 
+import sys
+sys.path.insert(0, 'reCAPTCHA/')
+
 driver_PATH = 'C:/Program Files (x86)/chromedriver.exe'
 main_url = 'https://www.supremenewyork.com/shop/all/'
 
 options = webdriver.ChromeOptions()
-options.add_argument('lang=en'), options.add_extension('reCAPTCHA/Buster Captcha Solver for Humans.crx')
-options.add_extension('reCAPTCHA/anticaptcha-plugin_v0.50.zip')
+options.add_extension('../reCAPTCHA/anticaptcha-plugin_v0.50.crx')
 driver = webdriver.Chrome(driver_PATH, options=options)
 
 def category(name = ''):
@@ -35,6 +37,15 @@ def search_product_link(data, names_colors_array): # pd.DataFrame, list of tuple
     return links
 
 class SupremeBot:
+
+    def check_if_supreme_web_is_busy(self):
+
+        if len(driver.find_elements_by_css_selector('div[class="failed"]')) != 0:
+            print('web busy')
+            return True
+        else:
+            print('web in order')
+            return False
 
     def get_all_products(self, type=''):
 
@@ -84,7 +95,7 @@ class SupremeBot:
 
         wrap.find_element_by_css_selector('input[placeholder="full name"]').send_keys(personaldata['name'])
         wrap.find_element_by_css_selector('input[placeholder="email"]').send_keys(personaldata['email'])
-        wrap.find_element_by_css_selector('input[placeholder="tel"]').send_keys(personaldata['tel'])
+        wrap.find_element_by_css_selector('input[placeholder="tel"]').send_keys(personaldata['telephone'])
         wrap.find_element_by_css_selector('input[placeholder="address"]').send_keys(personaldata['address'])
         wrap.find_element_by_css_selector('input[placeholder="city"]').send_keys(personaldata['city'])
         wrap.find_element_by_css_selector('input[placeholder="postcode"]').send_keys(personaldata['postcode'])
@@ -99,7 +110,7 @@ class SupremeBot:
         # year_select.select_by_value(personaldata['visa_year'])
 
         country = Select(wrap.find_element_by_css_selector('select[name="order[billing_country]"]'))
-        country.select_by_value(personaldata['order_country'])
+        country.select_by_value(personaldata['country'])
 
         wrap.find_element_by_xpath("//select[@id='credit_card_type']/option[text()='PayPal']").click()
         
@@ -109,18 +120,14 @@ class SupremeBot:
 
     def get_product(self, name, color=None, size=None):
 
-            wrap = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, 'div[id="wrap"]')))
-
+            wrap = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div[id="wrap"]')))
             wrap.find_element_by_partial_link_text(name).click()
 
-            WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, 'a[data-style-name="{}"]'.format(color)))).click()
+            WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'a[data-style-name="{}"]'.format(color)))).click()
+            print('color found', wrap)
 
-            if size != None:
-
-                WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, 'select[name="size"]')))
+            if size != 'no size available':
+                WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'select[name="size"]')))
 
                 sleep(0.1)
                 size_selector = Select(driver.find_element_by_css_selector('select[name="size"]'))
@@ -198,24 +205,24 @@ class SupremeBot:
         
         driver.switch_to.default_content()
         
-        WebDriverWait(driver, 120).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, 'input[id="email"]'))).send_keys(paypaldata['paypal_email'])
+        WebDriverWait(driver, 300).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, 'input[id="email"]'))).send_keys(paypaldata['paypal email'])
 
-        WebDriverWait(driver, 120).until(
+        WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, 'input[id="email"]'))).send_keys(Keys.RETURN)
 
-        sleep(1)
+        sleep(2)  # time to load the password box
 
         driver.switch_to.default_content()
         
         WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, 'input[id="password"]'))).send_keys(paypaldata['paypal_password'])
+            EC.element_to_be_clickable((By.CSS_SELECTOR, 'input[id="password"]'))).send_keys(paypaldata['paypal password'])
 
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, 'input[id="password"]'))).send_keys(Keys.RETURN)
 
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, 'button[id="payment-submit-btn"]'))).click()
+        # WebDriverWait(driver, 10).until(
+            # EC.presence_of_element_located((By.CSS_SELECTOR, 'button[id="payment-submit-btn"]'))).click()
 
     def solve_recaptcha_IBM(self):  # solves recaptcha audio challenges using IBM watson sources
         
@@ -281,20 +288,3 @@ class SupremeBot:
                 sleep(1)
             except:
                 print('reCAPTCHA challenge failed')
-        
-        
-    
-        
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 import json
 
 class DataPage(tk.Frame):  # in this page we will introduce our neccessary data to buy the products
@@ -9,8 +10,8 @@ class DataPage(tk.Frame):  # in this page we will introduce our neccessary data 
         label = tk.Label(self, text="Personal data", font=controller.title_font)
         label.grid(row=1, column=1)
 
-        field_labels = ("name", "telephone", "address",
-                  "email", "city", "postcode", "country", "paypal email", "paypal password")
+        field_labels = ["name", "telephone", "address",
+                  "email", "city", "postcode", "paypal email", "paypal password"]
         entries = []
         for num, i in enumerate(field_labels):
             l = tk.Label(self, text=i)
@@ -22,6 +23,13 @@ class DataPage(tk.Frame):  # in this page we will introduce our neccessary data 
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
 
+        county_selector = ttk.Combobox(self, values=['ES', 'UK'], width=30)
+        county_selector.set('Select your country...')
+        county_selector.grid(row=10, column=1, padx=10, pady=10)
+        tk.Label(self, text='country').grid(row=10, column=0, ipadx=10)
+
+
+
         # buttons definition
         # ---------------------------return to star page button-------------------------------------
         return_button = tk.Button(self, text="Go to the start page",
@@ -32,10 +40,13 @@ class DataPage(tk.Frame):  # in this page we will introduce our neccessary data 
 
         def save_entries():  # saves the entries into a JSON file to be used during the purchases
             introduced_values = []
+
             for entry in entries:
                 introduced_values.append(entry.get())
 
-            costumer_info = dict(zip(field_labels, introduced_values))
+            introduced_values.append(county_selector.get())
+
+            costumer_info = dict(zip(field_labels + ['country'], introduced_values))
             with open('profiles/'+introduced_values[0]+'_profile.json', 'w') as fp:
                 json.dump(costumer_info, fp)
 

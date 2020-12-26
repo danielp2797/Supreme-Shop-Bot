@@ -4,6 +4,9 @@ import os
 import pandas as pd
 from ast import literal_eval
 import json
+import sys
+sys.path.insert(1, '../')
+from runbot import RunBot
 
 products_data = pd.read_csv('droplist_scrapping/supreme-droplist.csv', sep=';')
 
@@ -65,12 +68,20 @@ class PurchasePage(tk.Frame):
         hour_selector = ttk.Combobox(self, value=['0'+str(i) if i <= 9 else str(i) for i in range(24)],
                                      width=30)
         hour_selector.set('Select the hour (HH format)')
-        hour_selector.grid(row=5, column=1, padx=10, pady=10)
+        hour_selector.grid(row=6, column=1, padx=10, pady=10)
 
         minute_selector = ttk.Combobox(self, value=['0' + str(i) if i <= 9 else str(i) for i in range(60)],
                                      width=30)
         minute_selector.set('Select minutes (MM format)')
-        minute_selector.grid(row=5, column=2, padx=10, pady=10)
+        minute_selector.grid(row=6, column=2, padx=10, pady=10)
+
+        #---------------------- product type selector---------------------------------------
+        # this selector is useful to start in the page where the product is placed ex. pants, hats...
+        product_types = ['jackets', 'shirts', 'tops_sweaters',
+                         'sweatshirts', 'pants', 't-shirts', 'hats', 'bags', 'accessories', 'skate']
+        type_selector = ttk.Combobox(self, width=30, value = product_types)
+        type_selector.set('Select the product type...')
+        type_selector.grid(row=5, column=1, columnspan=2, padx=10, pady=10, sticky='w')
 
         #------------------------------working button-------------------------------
 
@@ -88,8 +99,10 @@ class PurchasePage(tk.Frame):
             personal_data = select_profile()
             product_info = {'name': str(selector_prod.get()),
                             'size': str(size_selector.get()),
-                            'color': str(color_selector.get())}
+                            'color': str(color_selector.get()),
+                            'type': str(type_selector.get())}
             print(personal_data, product_info)
+            RunBot(personaldata_dict=personal_data, target_product=product_info)
 
         button = tk.Button(self, text="OK", command=select_profile)
         button.grid(row=70, column=2)
