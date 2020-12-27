@@ -5,8 +5,8 @@ import pandas as pd
 from ast import literal_eval
 import json
 import sys
-sys.path.insert(1, '../')
-from runbot import RunBot
+from bot.runbot import RunBot
+from bot.runbot import ScrapLatestDroplist
 
 products_data = pd.read_csv('droplist_scrapping/supreme-droplist.csv', sep=';')
 
@@ -64,7 +64,7 @@ class PurchasePage(tk.Frame):
         color_selector.grid(row=4, column=1, columnspan=2, padx=10, pady=10, sticky='w')
         color_selector.bind('<Button-1>', callback_color)
 
-        #----------------------- working hour selection-------------------------------------
+        #----------------------- working hour selection (developing) -------------------------------------
         hour_selector = ttk.Combobox(self, value=['0'+str(i) if i <= 9 else str(i) for i in range(24)],
                                      width=30)
         hour_selector.set('Select the hour (HH format)')
@@ -84,28 +84,26 @@ class PurchasePage(tk.Frame):
         type_selector.grid(row=5, column=1, columnspan=2, padx=10, pady=10, sticky='w')
 
         #------------------------------working button-------------------------------
-
-        def select_profile():
+        def StartPurchase():
             try:
                 with open('profiles/' + str(profile_selector.get()) + '_profile.json') as json_file:
-                    json_dict = json.load(json_file)
+                    personal_data = json.load(json_file)
                     json_file.close()
-                    return json_dict
             except FileNotFoundError:
                 print('profile not found')
 
-        def StartPurchase():
-
-            personal_data = select_profile()
             product_info = {'name': str(selector_prod.get()),
                             'size': str(size_selector.get()),
                             'color': str(color_selector.get()),
                             'type': str(type_selector.get())}
             print(personal_data, product_info)
-            RunBot(personaldata_dict=personal_data, target_product=product_info)
+            RunBot(personal_data=personal_data, target_product=product_info)
 
-        button = tk.Button(self, text="OK", command=select_profile)
-        button.grid(row=70, column=2)
-        button = tk.Button(self, text="Start Purchase",
+        purchase_button = tk.Button(self, text="Start Purchase",
                            command=StartPurchase)
-        button.grid(row=100, column=1, padx=10, pady=10)
+        purchase_button.grid(row=100, column=2, padx=10, pady=10)
+
+        update_dl_button = tk.Button(self, text="Update drop list",
+                           command=ScrapLatestDroplist)
+        update_dl_button.grid(row=100, column=1, padx=10, pady=10)
+
