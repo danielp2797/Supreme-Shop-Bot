@@ -1,8 +1,7 @@
 - [Introduction and motivation](#introduction-and-motivation)
 - [Supreme Shop Bot](#supreme-shop-bot)
 - [Limitations](#limitations)
-- [Sofware Requirements](#sofware-requirements)
-
+- [To do list](#to-do-list)
 # Introduction and motivation
 Supreme is one of the most famous streetfashion brand in the world. Their marketing strategy is based on weekly drops of rare clothes editions collaborating with another well known brands such as Nothface, Nike, etc ... so much so that they have created a "Drop culture" with a huge community of fans and an active resell market. 
 
@@ -28,4 +27,14 @@ There are some limitations that you have to keep in mind if you are planning to 
 
 NOTE: I am working in a VPN solution for this problem.
 
-# Sofware Requirements
+# To do List
+
+The project is currently in progress and the main points of improvement or future releases are:
+
+1. To implement a more beautiful GUI, Tkinter allows to implement the desired functionalities but it looks like a Windows crash alert...
+2. To implement a scheduler of the purchases.
+3. To implement alerts in the GUI when the user is not using the functionalities properly.
+4. To implement a VPN service to hid the bot and bypass reCAPTCHA.
+5. To develop some analytics about the products inside the app (expected resell price, popularity, etc)
+6. To make a detailed tutorial about the bot use.
+7. To implement an executable to run the bot.
