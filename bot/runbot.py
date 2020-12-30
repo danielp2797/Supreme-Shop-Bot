@@ -11,21 +11,20 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 
-import sys
-sys.path.insert(0, '../')
+import os
+
 def RunBot(personal_data, target_product):  # function which will run after press the button 'Start purchase'
 
     main_url = 'https://www.supremenewyork.com/shop/all/'
 
     options = webdriver.ChromeOptions()
-    options.add_extension('anticaptcha-plugin_v0.50.crx')
+    options.add_extension('bot/anticaptcha-plugin_v0.50.crx')
     options.add_argument('lang=en')
-    driver = webdriver.Chrome('../bot/chromedriver.exe', options=options)
+    driver = webdriver.Chrome('bot/chromedriver.exe', options=options)
 
     driver.get(main_url + target_product['type'])  # loads the url where the product is placed
 
     # the bot is developed to perform during the drops, so, it will wait refreshing the page until the product appears
-    '''bot.wait_product(target_product['name'])'''
     while (True):
 
         wrap = WebDriverWait(driver, 10).until( #  after refresh searchs the main wrap
@@ -52,7 +51,6 @@ def RunBot(personal_data, target_product):  # function which will run after pres
                     )).select_by_visible_text(target_product['size'])
         sleep(0.1)  # time to send size info
 
-    '''bot.submit()'''
     driver.switch_to.default_content()  # when we add something to cart a new frame appears, we switch to default
 
     WebDriverWait(driver, 5).until(
@@ -60,7 +58,6 @@ def RunBot(personal_data, target_product):  # function which will run after pres
             (By.CSS_SELECTOR, 'input[type=submit]'))
                 ).click()
 
-    '''bot.check_out()'''
     WebDriverWait(driver, 5).until( # go to checkout frame
         EC.element_to_be_clickable(
             (By.CSS_SELECTOR, 'a[class="button checkout"]'))
@@ -127,7 +124,7 @@ def ScrapLatestDroplist():  # drop list scraper
 
     options = webdriver.ChromeOptions()
     options.add_argument('lang=en')
-    driver = webdriver.Chrome('../bot/chromedriver.exe', options=options)
+    driver = webdriver.Chrome('bot/chromedriver.exe', options=options)
 
     driver.get(main_url)
     drop_products = driver.find_elements_by_css_selector('div[class="card card-2"]')

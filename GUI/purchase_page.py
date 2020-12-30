@@ -5,14 +5,12 @@ import pandas as pd
 from ast import literal_eval
 import json
 
-import sys
-sys.path.insert(1, '../')
 from bot.runbot import RunBot
 from bot.runbot import ScrapLatestDroplist
 
 try:
     products_data = pd.read_csv('droplist/supreme-droplist.csv', sep=';')
-except (pd.errors.EmptyDataError, FileNotFoundError):
+except (pd.errors.EmptyDataError, FileNotFoundError):  # introduce changes here in order to raise a warning in the GUI
     products_data = pd.DataFrame(columns=['name', 'sizes', 'color'])
     pass
 
@@ -107,7 +105,7 @@ class PurchasePage(tk.Frame):
                             'size': str(size_selector.get()),
                             'color': str(color_selector.get()),
                             'type': str(type_selector.get())}
-            print(personal_data, product_info)
+
             RunBot(personal_data=personal_data, target_product=product_info)
 
         purchase_button = tk.Button(self, text="Start Purchase",
