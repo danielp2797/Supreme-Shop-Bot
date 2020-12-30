@@ -47,9 +47,12 @@ class DataPage(tk.Frame):  # in this page we will introduce our neccessary data 
             introduced_values.append(country_selector.get())
 
             costumer_info = dict(zip(field_labels + ['country'], introduced_values))
-            with open('profiles/'+introduced_values[0]+'_profile.json', 'w') as fp:
-                json.dump(costumer_info, fp)
-            fp.close()
+            try:
+                with open('profiles/'+introduced_values[0]+'_profile.json', 'w') as fp:
+                    json.dump(costumer_info, fp)
+                fp.close()
+            except FileNotFoundError:  # first time there is no profiles folder
+                pass
 
         save_button = tk.Button(self, text = "Save", command = save_entries)
         save_button.grid(row=100, column=1, pady=10)
