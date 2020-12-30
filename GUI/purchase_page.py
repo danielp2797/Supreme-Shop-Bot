@@ -36,7 +36,7 @@ class PurchasePage(tk.Frame):
             profiles = [json_file.split('_')[0] for json_file in json_files] + ['None']
         except FileNotFoundError:
             profiles = ['']
-        
+
         selector_variable = tk.StringVar('')
         selector_variable.set('No profile selected')
 
