@@ -31,8 +31,12 @@ class PurchasePage(tk.Frame):
         # ----------------------- profile selector--------------------------------------
         # In this part we will
         # first we search every json in the folder profiles
-        json_files = [pos_json for pos_json in os.listdir('profiles/') if pos_json.endswith('.json')]
-        profiles = [json_file.split('_')[0] for json_file in json_files] + ['None']
+        try:
+            json_files = [pos_json for pos_json in os.listdir('profiles/') if pos_json.endswith('.json')]
+            profiles = [json_file.split('_')[0] for json_file in json_files] + ['None']
+        except FileNotFoundError:
+            profiles = ['']
+        
         selector_variable = tk.StringVar('')
         selector_variable.set('No profile selected')
 
