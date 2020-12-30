@@ -12,7 +12,7 @@ from bot.runbot import ScrapLatestDroplist
 
 try:
     products_data = pd.read_csv('droplist/supreme-droplist.csv', sep=';')
-except pd.errors.EmptyDataError:
+except pd.errors.EmptyDataError or FileNotFoundError:
     products_data = pd.DataFrame(columns=['name', 'sizes', 'color'])
     pass
 
