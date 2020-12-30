@@ -1,7 +1,7 @@
 # menus code inspired in https://stackoverflow.com/questions/7546050/switch-between-two-frames-in-tkinter
-from start_page import StartPage
-from data_page import DataPage
-from purchase_page import PurchasePage
+from GUI.start_page import StartPage
+from GUI.data_page import DataPage
+from GUI.purchase_page import PurchasePage
 import tkinter as tk
 from tkinter import font as tkfont
 

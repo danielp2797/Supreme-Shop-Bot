@@ -6,7 +6,7 @@ from ast import literal_eval
 import json
 
 import sys
-sys.path.insert(0, '../')
+sys.path.insert(1, '../')
 from bot.runbot import RunBot
 from bot.runbot import ScrapLatestDroplist
 
