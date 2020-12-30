@@ -2,7 +2,7 @@
 - [Supreme Shop Bot](#supreme-shop-bot)
 - [Limitations](#limitations)
 - [To do list](#to-do-list)
-# Introduction and motivation
+# Introduction and motivation (in progress...)
 Supreme is one of the most famous streetfashion brand in the world. Their marketing strategy is based on weekly drops of rare clothes editions collaborating with another well known brands such as Nothface, Nike, etc ... so much so that they have created a "Drop culture" with a huge community of fans and an active resell market. 
 
 This active reselling market has attracted some buyers who are just interested in making money in the resell market, closing to the fans the opportunity to buy this products. We can see it every week during the drops, where some products turn sold out in just a few seconds, that is due to the huge amount of bots performing purchases to resell the products for two of three times their price.
