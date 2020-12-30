@@ -5,10 +5,6 @@ from purchase_page import PurchasePage
 import tkinter as tk
 from tkinter import font as tkfont
 
-import sys
-sys.path.insert(-1, '/GUI')
-
-
 class App(tk.Tk):
 
     def __init__(self, *args, **kwargs):
