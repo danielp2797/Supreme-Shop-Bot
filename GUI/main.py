@@ -1,10 +1,13 @@
 # menus code inspired in https://stackoverflow.com/questions/7546050/switch-between-two-frames-in-tkinter
-
-import tkinter as tk
-from tkinter import font as tkfont
 from start_page import StartPage
 from data_page import DataPage
 from purchase_page import PurchasePage
+import tkinter as tk
+from tkinter import font as tkfont
+
+import sys
+sys.path.insert(-1, '/GUI')
+
 
 class App(tk.Tk):
 

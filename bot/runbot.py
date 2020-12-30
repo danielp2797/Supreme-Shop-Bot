@@ -10,9 +10,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
-import sys
 
-sys.path.insert(1, '../bot/')
+import sys
+sys.path.insert(0, '../')
 def RunBot(personal_data, target_product):  # function which will run after press the button 'Start purchase'
 
     main_url = 'https://www.supremenewyork.com/shop/all/'
@@ -104,13 +104,6 @@ def RunBot(personal_data, target_product):  # function which will run after pres
     email_box.send_keys(personal_data['paypal email'])
     email_box.send_keys(Keys.RETURN)
 
-    '''WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located(
-            (By.CSS_SELECTOR, 'input[id="email"]'))
-                ).send_keys(Keys.RETURN)'''
-
-    # sleep(2)  # time to load the password box
-
     driver.switch_to.default_content()
 
     password_box = WebDriverWait(driver, 10).until(
@@ -118,11 +111,6 @@ def RunBot(personal_data, target_product):  # function which will run after pres
                             (By.CSS_SELECTOR, 'input[id="password"]')))
     password_box.send_keys(personal_data['paypal password'])
     password_box.send_keys(Keys.RETURN)
-
-    '''WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable(
-            (By.CSS_SELECTOR, 'button[id="payment-submit-btn"]'))
-                ).click()'''
 
     return
 
@@ -194,9 +182,9 @@ def ScrapLatestDroplist():  # drop list scraper
         product_dict = {'release': release, 'name': name, 'color': details_result[1], 'sizes':sizes_transformed,
                     'prices': details_result[0], 'likes': likes, 'dislikes': dislikes}
 
-        print(product_dict)
         result.append(product_dict)
 
-    pd.DataFrame(result).to_csv('supreme-droplist.csv', sep=';', index=False)
+    print(result)
+    pd.DataFrame(result).to_csv('droplist/supreme-droplist.csv', sep=';', index=False)
     driver.close()
     return

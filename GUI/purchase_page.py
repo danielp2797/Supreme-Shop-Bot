@@ -4,15 +4,22 @@ import os
 import pandas as pd
 from ast import literal_eval
 import json
+
 import sys
+sys.path.insert(0, '../')
 from bot.runbot import RunBot
 from bot.runbot import ScrapLatestDroplist
 
-products_data = pd.read_csv('droplist_scrapping/supreme-droplist.csv', sep=';')
+try:
+    products_data = pd.read_csv('droplist/supreme-droplist.csv', sep=';')
+except pd.errors.EmptyDataError:
+    products_data = pd.DataFrame(columns=['name', 'sizes', 'color'])
+    pass
 
 class PurchasePage(tk.Frame):
 
     def __init__(self, parent, controller):
+
         tk.Frame.__init__(self, parent)
         self.controller = controller
         label = tk.Label(self, text="Purchase planner", font=controller.title_font)

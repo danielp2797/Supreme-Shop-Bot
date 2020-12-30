@@ -23,9 +23,9 @@ class DataPage(tk.Frame):  # in this page we will introduce our neccessary data 
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
 
-        county_selector = ttk.Combobox(self, values=['ES', 'UK'], width=30)
-        county_selector.set('Select your country...')
-        county_selector.grid(row=10, column=1, padx=10, pady=10)
+        country_selector = ttk.Combobox(self, values=['ES', 'UK'], width=30)
+        country_selector.set('Select your country...')
+        country_selector.grid(row=10, column=1, padx=10, pady=10)
         tk.Label(self, text='country').grid(row=10, column=0, ipadx=10)
 
 
@@ -44,11 +44,12 @@ class DataPage(tk.Frame):  # in this page we will introduce our neccessary data 
             for entry in entries:
                 introduced_values.append(entry.get())
 
-            introduced_values.append(county_selector.get())
+            introduced_values.append(country_selector.get())
 
             costumer_info = dict(zip(field_labels + ['country'], introduced_values))
             with open('profiles/'+introduced_values[0]+'_profile.json', 'w') as fp:
                 json.dump(costumer_info, fp)
+            fp.close()
 
         save_button = tk.Button(self, text = "Save", command = save_entries)
         save_button.grid(row=100, column=1, pady=10)
